@@ -1,0 +1,18 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "PDF Converter Plugin",
+    "name_for_model": "pdf_converter",
+    "description_for_human": "Plugin for converting text to PDF. You can customize the font style and size.",
+    "description_for_model": "Plugin for converting text to PDF. You can customize the font style and size.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://localhost:5000/openapi.yaml",
+        "is_user_authenticated": false
+    },
+    "logo_url": "http://localhost:5000/logo.png",
+    "contact_email": "houssammahdi98@gmail.com",
+    "legal_info_url": "http://www.example.com/legal"
+}

@@ -1,0 +1,2 @@
+runtime: python310
+entrypoint: main.gcf_convert_to_pdf

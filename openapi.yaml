@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: PDF Conversion Plugin
+  description: A plugin that allows users to convert text to a PDF document using ChatGPT.
+  version: 'v1'
+servers:
+  - url: http://localhost:5000
+paths:
+  /convert-to-pdf:
+    post:
+      operationId: convertToPdf
+      summary: Convert text to a PDF document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: The text to be converted to a PDF document.
+                font_size:
+                  type: integer
+                  description: The font size for the text in the PDF document.
+                  default: 12
+                font_style:
+                  type: string
+                  description: The font style for the text in the PDF document.
+                  default: Normal
+                  enum:
+                    - Normal
+                    - Italic
+                    - Heading1
+                    - Title
+                    - Heading2
+                    - Heading3
+                    - Bullet
+                    - Definition
+                    - Code
+      responses:
+        "200":
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
