@@ -17,27 +17,102 @@ paths:
             schema:
               type: object
               properties:
-                text:
+                paragraphs:
+                  type: array
+                  description: The paragraphs to be converted to a PDF document.
+                  items:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                        description: The text of the paragraph.
+                      font_size:
+                        type: integer
+                        description: The font size for the paragraph.
+                        default: 12
+                      font_style:
+                        type: string
+                        description: The font style for the paragraph.
+                        default: Normal
+                        enum:
+                          - Normal
+                          - Italic
+                          - Heading1
+                          - Title
+                          - Heading2
+                          - Heading3
+                          - Bullet
+                          - Definition
+                          - Code
+                      alignment:
+                        type: string
+                        description: The alignment for the paragraph.
+                        default: LEFT
+                        enum:
+                          - LEFT
+                          - RIGHT
+                          - CENTER
+                          - JUSTIFY
+                      table:
+                        type: object
+                        description: The table to be included in the paragraph.
+                        properties:
+                          data:
+                            type: array
+                            description: The data for the table.
+                            items:
+                              type: array
+                              items:
+                                type: string
+                          style:
+                            type: array
+                            description: The style for the table.
+                            items:
+                              type: string
+                      image:
+                        type: object
+                        description: The image to be included in the paragraph.
+                        properties:
+                          src:
+                            type: string
+                            description: The source of the image.
+                          width:
+                            type: integer
+                            description: The width of the image.
+                            default: 100
+                          height:
+                            type: integer
+                            description: The height of the image.
+                            default: 100
+                page_size:
                   type: string
-                  description: The text to be converted to a PDF document.
-                font_size:
-                  type: integer
-                  description: The font size for the text in the PDF document.
-                  default: 12
-                font_style:
-                  type: string
-                  description: The font style for the text in the PDF document.
-                  default: Normal
+                  description: The page size for the PDF document.
+                  default: A4
                   enum:
-                    - Normal
-                    - Italic
-                    - Heading1
-                    - Title
-                    - Heading2
-                    - Heading3
-                    - Bullet
-                    - Definition
-                    - Code
+                    - A4
+                    - LETTER
+                    - LEGAL
+                    - ELEVENSEVENTEEN
+                margins:
+                  type: object
+                  description: The margins for the PDF document.
+                  properties:
+                    top:
+                      type: integer
+                      description: The top margin for the PDF document.
+                      default: 72
+                    bottom:
+                      type: integer
+                      description: The bottom margin for the PDF document.
+                      default: 72
+                    left:
+                      type: integer
+                      description: The left margin for the PDF document.
+                      default: 72
+                    right:
+                      type: integer
+                      description: The right margin for the PDF document.
+                      default: 72
       responses:
         "200":
           description: OK
