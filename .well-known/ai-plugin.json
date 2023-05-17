@@ -1,9 +1,9 @@
 {
     "schema_version": "v1",
-    "name_for_human": "PDF Converter Plugin",
-    "name_for_model": "pdf_converter",
-    "description_for_human": "Plugin for converting text to PDF. You can customize the font style and size.",
-    "description_for_model": "Plugin for converting text to PDF. You can customize the font style and size.",
+    "name_for_human": "Save to PDF",
+    "name_for_model": "save_to_pdf",
+    "description_for_human": "Enables saving text, images, and tables to a PDF document.",
+    "description_for_model": "Enables saving text, images, and tables to a PDF document.",
     "auth": {
         "type": "none"
     },

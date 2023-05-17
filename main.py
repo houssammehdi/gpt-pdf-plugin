@@ -3,9 +3,11 @@ from flask_cors import CORS
 from reportlab.lib.pagesizes import A4, LETTER, LEGAL, ELEVENSEVENTEEN
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import Table, Image, TableStyle
+from reportlab.platypus import Spacer
+from reportlab.platypus import Table, Image, TableStyle, Spacer
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib import colors
+
 from io import BytesIO
 import base64
 import json
@@ -68,10 +70,10 @@ def convert_to_pdf(request):
 
     # Create the PDF object, using the BytesIO object as its "file"
     doc = SimpleDocTemplate(buffer, pagesize=page_size, 
-                            topMargin=margins.get('top', 72), 
-                            bottomMargin=margins.get('bottom', 72), 
-                            leftMargin=margins.get('left', 72), 
-                            rightMargin=margins.get('right', 72))
+                            topMargin=margins.get('top', 144), 
+                            bottomMargin=margins.get('bottom', 144), 
+                            leftMargin=margins.get('left', 144), 
+                            rightMargin=margins.get('right', 144))
 
     # Create the list of Flowable objects
     story = []
@@ -88,24 +90,37 @@ def convert_to_pdf(request):
         style = ParagraphStyle(
             name=font_style,
             fontSize=font_size,
-            alignment=alignment_dict.get(alignment, TA_LEFT)
+            alignment=alignment_dict.get(alignment, TA_LEFT),
+            leading=font_size * 1.2  # Set the leading to 120% of the font size
         )
 
         story.append(Paragraph(text, style))
 
-        # Add table if exists in paragraph
-        # Add table if exists in paragraph
-        if 'table' in paragraph:
-            table_data = paragraph['table'].get('data', [])
-            table_style_data = paragraph['table'].get('style', [])
+        # Add a spacer after each paragraph
+        story.append(Spacer(1, 50))
 
-            # Create a TableStyle object from the style data
-            table_style = TableStyle([
-                (style, (0, i), (-1, i), colors.black)
-                for i, style in enumerate(table_style_data)
-            ])
+    # Add table if exists in paragraph
+    if 'table' in paragraph:
+        table_data = paragraph['table'].get('data', [])
 
-            story.append(Table(table_data, style=table_style))
+        # Create a TableStyle with a header row and normal rows
+        table_style = TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header row
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),  # Header row
+            ('FONTSIZE', (0, 0), (-1, 0), 14),
+
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),  # Normal rows
+            ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('BOX', (0, 0), (-1, -1), 2, colors.black),
+        ])
+
+        story.append(Table(table_data, style=table_style))
 
         # Add image if exists in paragraph
         if 'image' in paragraph:
@@ -120,7 +135,7 @@ def convert_to_pdf(request):
     # Move to the beginning of the StringIO buffer
     buffer.seek(0)
 
-    # Encode the PDF as a base64 string
+     # Encode the PDF as a base64 string
     pdf_base64 = base64.b64encode(buffer.getvalue()).decode()
 
     # Return the base64 string as the result

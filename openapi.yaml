@@ -117,10 +117,13 @@ paths:
         "200":
           description: OK
           content:
-            application/pdf:
+            application/json:
               schema:
-                type: string
-                format: binary
+                type: object
+                properties:
+                  pdf_base64:
+                    type: string
+                    description: The base64 encoded PDF content.
         "400":
           description: Bad Request
           content:
