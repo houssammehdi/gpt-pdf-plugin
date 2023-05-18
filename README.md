@@ -80,4 +80,4 @@ Here's an example request body:
 Contributions are welcome! Please feel free to submit a pull request.
 
 ## License
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the GNU GENERAL PUBLIC LICENSE Version 3.
